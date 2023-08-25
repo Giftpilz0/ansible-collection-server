@@ -1,0 +1,12 @@
+---
+# defaults file for podman
+
+podman_kube_path: /home/{{ ansible_user }}/kube/
+podman_user: "{{ ansible_user }}"
+
+podman_service_name: podman.service
+podman_service_state: started
+podman_service_enabled: true
+podman_package_state: present
+podman_package:
+  - podman

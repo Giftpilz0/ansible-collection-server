@@ -1,0 +1,26 @@
+---
+# tasks file for pcp
+
+######################################
+### packages
+
+- name: "PCP: Manage packages"
+  become: true
+  ansible.builtin.package:
+    name: "{{ pcp_package }}"
+    state: "{{ pcp_package_state }}"
+  notify:
+    - "PCP: Restart"
+
+######################################
+### services
+
+- name: "PCP: Manage services"
+  become: true
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: "{{ pcp_service_state }}"
+    enabled: "{{ pcp_service_enabled }}"
+  loop: "{{ pcp_service_name }}"
+  when:
+    - pcp_package_state != 'absent'

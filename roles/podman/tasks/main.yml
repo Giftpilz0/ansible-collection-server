@@ -1,0 +1,61 @@
+---
+# tasks file for podman
+
+######################################
+### packages
+
+- name: "Podman: Manage dependencies"
+  become: true
+  ansible.builtin.package:
+    name: "{{ podman_package }}"
+    state: "{{ podman_package_state }}"
+
+######################################
+### jobs
+
+- name: "Podman: Enable lingering"
+  become: true
+  ansible.builtin.command: loginctl enable-linger {{ podman_user }}
+  register: lingering
+  changed_when: lingering.rc != 0
+
+- name: "Podman: Ensure folder exists"
+  become: true
+  ansible.builtin.file:
+    path: "{{ podman_document_path }}"
+    state: directory
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"
+    recurse: true
+    mode: "0755"
+
+- name: "Podman: Create user systemd directory"
+  become: true
+  ansible.builtin.file:
+    path: /home/{{ podman_user }}/.config/systemd/user
+    state: directory
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"
+    recurse: true
+    mode: "0755"
+
+######################################
+### services
+
+- name: "Podman: Systemd reread configs"
+  become_user: "{{ podman_user }}"
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+
+- name: "Podman: Manage services"
+  become_user: "{{ podman_user }}"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ podman_service_name }}"
+    state: "{{ podman_service_state }}"
+    enabled: "{{ podman_service_enabled }}"
+    scope: user
+  when:
+    - podman_package_state != 'absent'

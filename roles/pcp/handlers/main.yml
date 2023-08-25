@@ -1,0 +1,11 @@
+---
+# handlers file for pcp
+
+- name: "PCP: Restart"
+  become: true
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop: "{{ pcp_service_name }}"
+  when:
+    - pcp_package_state != 'absent'

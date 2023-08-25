@@ -1,0 +1,40 @@
+---
+argument_specs:
+  main:
+    short_description: The main entry point for the pcp role.
+    options:
+      pcp_service_name:
+        type: list
+        elements: str
+        required: false
+        description: pcp_service_name
+
+      pcp_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: pcp_service_state
+
+      pcp_service_enabled:
+        type: bool
+        required: false
+        description: pcp_service_enabled
+
+      pcp_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: pcp_package_state
+
+      pcp_package:
+        type: list
+        elements: str
+        required: false
+        description: pcp_package

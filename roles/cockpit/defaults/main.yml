@@ -1,0 +1,29 @@
+---
+# defaults file for cockpit
+
+cockpit_service_name: cockpit.socket
+cockpit_service_state: started
+cockpit_service_enabled: true
+cockpit_package_state: present
+cockpit_package:
+  - cockpit
+  - cockpit-storaged
+  - cockpit-networkmanager
+
+cockpit_additional_package:
+  - package: cockpit-pcp
+    requirement: pcp
+    state: present
+  - package: cockpit-podman
+    requirement: podman
+    state: present
+  - package: cockpit-selinux
+    requirement: libselinux
+    state: present
+  - package: cockpit-machines
+    requirement: qemu-kvm
+    state: present
+
+cockpit_firewalld_state: enabled
+cockpit_firewalld_service: cockpit
+cockpit_firewalld_zone:

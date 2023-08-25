@@ -1,0 +1,18 @@
+---
+# defaults file for nfs
+
+nfs_service_name:
+  - name: nfs-server.service
+  - name: rpcbind.service
+nfs_service_state: started
+nfs_service_enabled: true
+nfs_package_state: present
+nfs_package:
+  - nfs-utils
+
+nfs_exports_file: /etc/exports
+nfs_exports_state: present
+
+nfs_firewalld_state: enabled
+nfs_firewalld_service: nfs
+nfs_firewalld_zone:

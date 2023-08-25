@@ -1,0 +1,50 @@
+---
+argument_specs:
+  # main.yml entry point
+  main:
+    short_description: The main entry point for the podman role.
+    options:
+      podman_kube_path:
+        type: str
+        required: false
+        description: podman_kube_path
+
+      podman_user:
+        type: str
+        required: false
+        description: podman_user
+
+      podman_service_name:
+        type: str
+        required: false
+        description: podman_service_name
+
+      podman_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: podman_service_state
+
+      podman_service_enabled:
+        type: bool
+        required: false
+        description: podman_service_enabled
+
+      podman_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: podman_package_state
+
+      podman_package:
+        type: list
+        elements: str
+        required: false
+        description: podman_package

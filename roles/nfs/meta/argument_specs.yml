@@ -1,0 +1,94 @@
+---
+argument_specs:
+  main:
+    short_description: The main entry point for the nfs role.
+    options:
+      nfs_service_name:
+        type: list
+        elements: dict
+        options:
+          name:
+            type: str
+            required: false
+        description: nfs_service_name
+
+      nfs_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: nfs_service_state
+
+      nfs_service_enabled:
+        type: bool
+        required: false
+        description: nfs_service_enabled
+
+      nfs_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: nfs_package_state
+
+      nfs_package:
+        type: list
+        elements: str
+        required: false
+        description: nfs_package
+
+      nfs_exports_file:
+        type: str
+        required: false
+        description: nfs_exports_file
+
+      nfs_exports:
+        type: list
+        elements: dict
+        required: false
+        options:
+          path:
+            type: str
+            required: false
+          host:
+            type: str
+            required: false
+          options:
+            type: str
+            required: false
+        description: nfs_exports
+
+      nfs_exports_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - skip
+        description: nfs_exports_state
+
+      nfs_firewalld_zone:
+        type: str
+        required: false
+        description: nfs_firewalld_zone
+
+      nfs_firewalld_service:
+        type: str
+        required: false
+        description: nfs_firewalld_service
+
+      nfs_firewalld_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - enabled
+          - disabled
+          - skip
+        description: nfs_firewalld_state

@@ -1,0 +1,58 @@
+---
+# tasks file for cockpit
+
+######################################
+### packages
+
+- name: "Cockpit: Gather package Facts"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "Cockpit: Manage packages"
+  become: true
+  ansible.builtin.package:
+    name: "{{ cockpit_package }}"
+    state: "{{ cockpit_package_state }}"
+  notify:
+    - "Cockpit: Restart"
+
+- name: "Cockpit: Manage additional packages"
+  become: true
+  ansible.builtin.package:
+    name: "{{ item.package }}"
+    state: "{{ item.state }}"
+  with_items: "{{ cockpit_additional_package }}"
+  when:
+    - item.requirement in ansible_facts.packages
+    - item.state != 'skip'
+    - cockpit_package_state != 'absent'
+  notify:
+    - "Cockpit: Restart"
+
+######################################
+### services
+
+- name: "Cockpit: Manage services"
+  become: true
+  ansible.builtin.service:
+    name: "{{ cockpit_service_name }}"
+    state: "{{ cockpit_service_state }}"
+    enabled: "{{ cockpit_service_enabled }}"
+  when:
+    - cockpit_package_state != 'absent'
+
+######################################
+### jobs
+
+- name: "Cockpit: Manage firewall"
+  ansible.builtin.include_role:
+    name: giftpilz0.general.firewalld
+  vars:
+    firewalld_rules_services:
+      - service: "{{ cockpit_firewalld_service }}"
+        zone: "{{ cockpit_firewalld_zone }}"
+        state: "{{ cockpit_firewalld_state }}"
+  when:
+    - "'firewalld' in ansible_facts.packages"
+    - cockpit_firewalld_state != 'skip'
+    - cockpit_package_state != 'absent'

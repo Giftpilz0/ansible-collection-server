@@ -1,0 +1,25 @@
+---
+namespace: giftpilz0
+name: server
+version: 1.0.0
+
+description: Ansible collection for linux server management
+readme: README.md
+license:
+  - GPL-3.0-only
+
+authors:
+  - Moritz Schmidt <schmidtmoritz404@gmail.com>
+
+tags:
+  - linux
+  - cockpit
+  - nfs
+  - pcp
+  - podman
+
+dependencies:
+  ansible.posix: ">=1.0.0"
+  community.general: ">=1.0.0"
+
+repository: https://github.com/giftpilz0/ansible-collection-server

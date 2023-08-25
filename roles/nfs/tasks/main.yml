@@ -1,0 +1,58 @@
+---
+# tasks file for nfs
+
+######################################
+### packages
+
+- name: "NFS: Gather package Facts"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "NFS: Manage packages"
+  become: true
+  ansible.builtin.package:
+    name: "{{ nfs_package }}"
+    state: "{{ nfs_package_state }}"
+  notify:
+    - "NFS: Restart"
+
+######################################
+### services
+
+- name: "NFS: Manage services"
+  become: true
+  ansible.builtin.service:
+    name: "{{ item.name }}"
+    state: "{{ nfs_service_state }}"
+    enabled: "{{ nfs_service_enabled }}"
+  with_items: "{{ nfs_service_name }}"
+  when:
+    - nfs_package_state != 'absent'
+
+######################################
+### jobs
+
+- name: "NFS: Manage firewall"
+  ansible.builtin.include_role:
+    name: giftpilz0.general.firewalld
+  vars:
+    firewalld_rules_services:
+      - service: "{{ nfs_firewalld_service }}"
+        zone: "{{ nfs_firewalld_service }}"
+        state: "{{ nfs_firewalld_state }}"
+  when:
+    - "'firewalld' in ansible_facts.packages"
+    - nfs_firewalld_state != 'skip'
+    - nfs_package_state != 'absent'
+
+- name: "NFS: Manage exports"
+  become: true
+  ansible.builtin.blockinfile:
+    block: |
+      {% for item in nfs_exports | default({}) %}
+      "{{ item.path }}" {{ item.host }}({{ item.options }})
+      {% endfor %}
+    path: "{{ nfs_exports_file }}"
+    state: "{{ nfs_exports_state }}"
+  when:
+    - nfs_exports_state != 'skip'

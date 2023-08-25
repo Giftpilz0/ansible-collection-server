@@ -1,0 +1,10 @@
+---
+# handlers file for cockpit
+
+- name: "Cockpit: Restart"
+  become: true
+  ansible.builtin.service:
+    name: "{{ cockpit_service_name }}"
+    state: restarted
+  when:
+    - cockpit_package_state != 'absent'

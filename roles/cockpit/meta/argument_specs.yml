@@ -1,0 +1,91 @@
+---
+argument_specs:
+  main:
+    short_description: The main entry point for the cockpit role.
+    options:
+      cockpit_service_name:
+        type: str
+        required: false
+        description: cockpit_service_name
+
+      cockpit_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: cockpit_service_state
+
+      cockpit_service_enabled:
+        type: bool
+        required: false
+        description: cockpit_service_enabled
+
+      cockpit_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: cockpit_package_state
+
+      cockpit_package:
+        type: list
+        elements: str
+        required: false
+        description: cockpit_package
+
+      cockpit_additional_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+          - skip
+        description: cockpit_additional_package_state
+
+      cockpit_additional_package:
+        type: list
+        elements: dict
+        required: false
+        options:
+          package:
+            type: str
+            required: false
+          requirement:
+            type: str
+            required: false
+          state:
+            type: str
+            required: false
+            choices:
+              - present
+              - absent
+              - latest
+              - skip
+        description: cockpit_additional_package
+
+      cockpit_firewalld_zone:
+        type: str
+        required: false
+        description: cockpit_firewalld_zone
+
+      cockpit_firewalld_service:
+        type: str
+        required: false
+        description: cockpit_firewalld_service
+
+      cockpit_firewalld_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - enabled
+          - disabled
+          - skip
+        description: cockpit_firewalld_state

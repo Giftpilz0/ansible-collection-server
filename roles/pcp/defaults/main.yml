@@ -1,0 +1,12 @@
+---
+# defaults file for pcp
+
+pcp_service_name:
+  - pmie.service
+  - pmlogger.service
+  - pmcd.service
+pcp_service_state: started
+pcp_service_enabled: true
+pcp_package_state: present
+pcp_package:
+  - pcp
