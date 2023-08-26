@@ -1,23 +1,25 @@
+# Server Collection
+
 ![Ansible-Lint](https://github.com/giftpilz0/ansible-collection-server/actions/workflows/ci.yml/badge.svg)
 
-# Ansible Collection - giftpilz0.server
+Ansible Collection to perform server-specific configurations on Linux systems.
+
+Complete documentation:
+<https://giftpilz0.github.io/projectdocs/ansible/server/>
 
 ______________________________________________________________________
 
-## Roles
+## Installation
 
-- cockpit
-- nfs
-- pcp
-- podman
+`ansible-galaxy collection install git+https://github.com/Giftpilz0/ansible-collection-server.git`
+
+## Included Roles
+
+- [cockpit](cockpit/)
+- [nfs](nfs/)
+- [pcp](pcp/)
+- [podman](podman/)
 
 ## Requirements
 
-- Fedora Linux 37
-
-## Testing
-
-```
-# Run linting test in Docker/Podman
-ansible-test sanity --lint --docker
-```
+- Fedora >= 38
