@@ -1,3 +1,5 @@
+![Ansible-Lint](https://github.com/giftpilz0/ansible-collection-server/actions/workflows/ci.yml/badge.svg)
+
 # Ansible Collection - giftpilz0.server
 
 ______________________________________________________________________
