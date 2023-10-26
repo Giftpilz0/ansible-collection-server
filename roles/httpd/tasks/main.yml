@@ -35,7 +35,7 @@
   vars:
     firewalld_rules_services:
       - service: "{{ httpd_firewalld_service }}"
-        zone: "{{ httpd_firewalld_service }}"
+        zone: "{{ httpd_firewalld_zone }}"
         state: "{{ httpd_firewalld_state }}"
   when:
     - "'firewalld' in ansible_facts.packages"

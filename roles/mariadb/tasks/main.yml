@@ -37,7 +37,7 @@
   vars:
     firewalld_rules_services:
       - service: "{{ mariadb_firewalld_service }}"
-        zone: "{{ mariadb_firewalld_service }}"
+        zone: "{{ mariadb_firewalld_zone }}"
         state: "{{ mariadb_firewalld_state }}"
   when:
     - "'firewalld' in ansible_facts.packages"
