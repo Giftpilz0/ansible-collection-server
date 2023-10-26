@@ -8,10 +8,11 @@ mariadb_package_state: present
 mariadb_package:
   - mariadb
   - mariadb-server
+  - python3-mysqlclient
 
 mariadb_database: default
 mariadb_database_encoding: utf8
-mariadb_database_collation:
+mariadb_database_collation: ""
 mariadb_database_state: present
 mariadb_user: "{{ ansible_user }}"
 mariadb_user_password: changeme
