@@ -38,3 +38,24 @@ argument_specs:
         elements: str
         required: false
         description: httpd_package
+
+      httpd_firewalld_zone:
+        type: str
+        required: false
+        description: httpd_firewalld_zone
+
+      httpd_firewalld_service:
+        type: str
+        required: false
+        description: httpd_firewalld_service
+
+      httpd_firewalld_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - enabled
+          - disabled
+          - skip
+        description: httpd_firewalld_state

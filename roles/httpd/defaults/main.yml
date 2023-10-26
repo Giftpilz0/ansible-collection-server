@@ -8,3 +8,7 @@ httpd_package_state: present
 httpd_package:
   - httpd
   - mod_ssl
+
+httpd_firewalld_state: enabled
+httpd_firewalld_service: http
+httpd_firewalld_zone:
