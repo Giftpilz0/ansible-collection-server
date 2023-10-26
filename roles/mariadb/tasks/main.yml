@@ -1,0 +1,67 @@
+---
+# tasks file for mariadb
+
+######################################
+### packages
+
+- name: "Mariadb: Gather package Facts"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "Mariadb: Manage dependencies"
+  become: true
+  ansible.builtin.package:
+    name: "{{ mariadb_package }}"
+    state: "{{ mariadb_package_state }}"
+  notify:
+    - "Mariadb: Restart"
+
+######################################
+### services
+
+- name: "Mariadb: Manage services"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ mariadb_service_name }}"
+    state: "{{ mariadb_service_state }}"
+    enabled: "{{ mariadb_service_enabled }}"
+  when:
+    - mariadb_package_state != 'absent'
+
+######################################
+### jobs
+
+- name: "Mariadb: Manage firewall"
+  ansible.builtin.include_role:
+    name: giftpilz0.general.firewalld
+  vars:
+    firewalld_rules_services:
+      - service: "{{ mariadb_firewalld_service }}"
+        zone: "{{ mariadb_firewalld_service }}"
+        state: "{{ mariadb_firewalld_state }}"
+  when:
+    - "'firewalld' in ansible_facts.packages"
+    - mariadb_firewalld_state != 'skip'
+    - mariadb_package_state != 'absent'
+
+- name: "Mariadb: Create database"
+  community.mysql.mysql_db:
+    name: "{{ mariadb_database }}"
+    encoding: "{{ mariadb_database_encoding }}"
+    collation: "{{ mariadb_database_collation }}"
+    state: "{{ mariadb_database_state }}"
+  when:
+    - mariadb_package_state != 'absent'
+    - mariadb_database_state != 'skip'
+    - mariadb_user_state != 'skip'
+
+- name: "Mariadb: Create database-user"
+  community.mysql.mysql_user:
+    name: "{{ mariadb_user }}"
+    password: "{{ mariadb_user_password }}"
+    priv: "{{ mariadb_user_database }}.*:{{ mariadb_user_privileges }}"
+    state: "{{ mariadb_user_state }}"
+  when:
+    - mariadb_package_state != 'absent'
+    - mariadb_database_state != 'skip'
+    - mariadb_user_state != 'skip'

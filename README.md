@@ -17,6 +17,7 @@ ______________________________________________________________________
 
 - [cockpit](cockpit/)
 - [httpd](httpd/)
+- [mariadb](mariadb/)
 - [nfs](nfs/)
 - [pcp](pcp/)
 - [podman](podman/)

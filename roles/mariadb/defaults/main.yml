@@ -1,0 +1,24 @@
+---
+# defaults file for mariadb
+
+mariadb_service_name: mariadb.service
+mariadb_service_state: started
+mariadb_service_enabled: true
+mariadb_package_state: present
+mariadb_package:
+  - mariadb
+  - mariadb-server
+
+mariadb_database: default
+mariadb_database_encoding: utf8
+mariadb_database_collation:
+mariadb_database_state: present
+mariadb_user: "{{ ansible_user }}"
+mariadb_user_password: changeme
+mariadb_user_database: "{{ mariadb_database }}"
+mariadb_user_privileges: ALL
+mariadb_user_state: present
+
+mariadb_firewalld_state: enabled
+mariadb_firewalld_service: mysql
+mariadb_firewalld_zone:

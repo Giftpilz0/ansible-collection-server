@@ -1,0 +1,114 @@
+---
+argument_specs:
+  # main.yml entry point
+  main:
+    short_description: The main entry point for the mariadb role.
+    options:
+      mariadb_service_name:
+        type: str
+        required: false
+        description: mariadb_service_name
+
+      mariadb_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: mariadb_service_state
+
+      mariadb_service_enabled:
+        type: bool
+        required: false
+        description: mariadb_service_enabled
+
+      mariadb_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: mariadb_package_state
+
+      mariadb_package:
+        type: list
+        elements: str
+        required: false
+        description: mariadb_package
+
+      mariadb_database:
+        type: str
+        required: false
+        description: mariadb_database
+
+      mariadb_database_encoding:
+        type: str
+        required: false
+        description: mariadb_database_encoding
+
+      mariadb_database_collation:
+        type: str
+        required: false
+        description: mariadb_database_collation
+
+      mariadb_database_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - skip
+        description: mariadb_database_state
+
+      mariadb_user:
+        type: str
+        required: false
+        description: mariadb_user
+
+      mariadb_user_password:
+        type: str
+        required: false
+        description: mariadb_user_password
+
+      mariadb_user_database:
+        type: str
+        required: false
+        description: mariadb_user_database
+
+      mariadb_user_privileges:
+        type: str
+        required: false
+        description: mariadb_user_privileges
+
+      mariadb_user_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - skip
+        description: mariadb_user_state
+
+      mariadb_firewalld_zone:
+        type: str
+        required: false
+        description: mariadb_firewalld_zone
+
+      mariadb_firewalld_service:
+        type: str
+        required: false
+        description: mariadb_firewalld_service
+
+      mariadb_firewalld_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - enabled
+          - disabled
+          - skip
+        description: mariadb_firewalld_state

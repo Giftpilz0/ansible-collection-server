@@ -1,0 +1,10 @@
+---
+# handlers file for mariadb
+
+- name: "Mariadb: Restart"
+  become: true
+  ansible.builtin.service:
+    name: "{{ mariadb_service_name }}"
+    state: restarted
+  when:
+    - mariadb_package_state != 'absent'
