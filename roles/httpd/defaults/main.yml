@@ -1,0 +1,10 @@
+---
+# defaults file for httpd
+
+httpd_service_name: httpd.service
+httpd_service_state: started
+httpd_service_enabled: true
+httpd_package_state: present
+httpd_package:
+  - httpd
+  - mod_ssl

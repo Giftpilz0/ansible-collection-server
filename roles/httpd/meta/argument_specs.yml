@@ -1,0 +1,40 @@
+---
+argument_specs:
+  # main.yml entry point
+  main:
+    short_description: The main entry point for the httpd role.
+    options:
+      httpd_service_name:
+        type: str
+        required: false
+        description: httpd_service_name
+
+      httpd_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: httpd_service_state
+
+      httpd_service_enabled:
+        type: bool
+        required: false
+        description: httpd_service_enabled
+
+      httpd_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: httpd_package_state
+
+      httpd_package:
+        type: list
+        elements: str
+        required: false
+        description: httpd_package
