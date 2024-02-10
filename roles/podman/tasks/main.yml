@@ -22,7 +22,7 @@
 - name: "Podman: Ensure folder exists"
   become: true
   ansible.builtin.file:
-    path: "{{ podman_document_path }}"
+    path: "{{ podman_kube_path }}"
     state: directory
     owner: "{{ podman_user }}"
     group: "{{ podman_user }}"
