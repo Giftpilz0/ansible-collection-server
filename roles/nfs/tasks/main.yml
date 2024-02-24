@@ -46,6 +46,7 @@
     - nfs_package_state != 'absent'
 
 - name: "NFS: Ensure export directory exists"
+  become: true
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
