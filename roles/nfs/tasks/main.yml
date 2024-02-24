@@ -45,6 +45,15 @@
     - nfs_firewalld_state != 'skip'
     - nfs_package_state != 'absent'
 
+- name: "NFS: Ensure export directory exists"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ nfs_exports | default({}) }}"
+  when:
+    - nfs_exports_state != 'skip'
+
 - name: "NFS: Manage exports"
   become: true
   ansible.builtin.blockinfile:
