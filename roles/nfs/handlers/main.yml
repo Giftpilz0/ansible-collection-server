@@ -1,12 +1,10 @@
 ---
 # handlers file for nfs
 
-- name: "NFS: Restart"
+- name: "NFS: Exportfs"
   become: true
-  ansible.builtin.service:
-    name: "{{ item }}"
-    state: restarted
-  loop:
-    - "{{ nfs_service_name }}"
+  ansible.builtin.command: exportfs -a
+  register: nfs_reload
+  changed_when: nfs_reload.rc != 0
   when:
     - nfs_package_state != 'absent'
