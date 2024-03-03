@@ -61,6 +61,15 @@ argument_specs:
           options:
             type: str
             required: false
+          group:
+            type: str
+            required: false
+          user:
+            type: str
+            required: false
+          permissions:
+            type: str
+            required: false
         description: nfs_exports
 
       nfs_exports_state:
