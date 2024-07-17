@@ -4,7 +4,7 @@
 ######################################
 ### packages
 
-- name: "Mariadb: Gather package Facts"
+- name: "Mariadb: Gather package facts"
   ansible.builtin.package_facts:
     manager: auto
 

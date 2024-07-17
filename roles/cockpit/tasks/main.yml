@@ -4,7 +4,7 @@
 ######################################
 ### packages
 
-- name: "Cockpit: Gather package Facts"
+- name: "Cockpit: Gather package facts"
   ansible.builtin.package_facts:
     manager: auto
 

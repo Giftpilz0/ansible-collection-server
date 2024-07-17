@@ -4,7 +4,7 @@
 ######################################
 ### packages
 
-- name: "NFS: Gather package Facts"
+- name: "NFS: Gather package facts"
   ansible.builtin.package_facts:
     manager: auto
 

@@ -4,7 +4,7 @@
 ######################################
 ### packages
 
-- name: "Httpd: Gather package Facts"
+- name: "Httpd: Gather package facts"
   ansible.builtin.package_facts:
     manager: auto
 
