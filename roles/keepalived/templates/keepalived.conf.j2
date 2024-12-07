@@ -1,0 +1,9 @@
+vrrp_instance {{ keepalived_config_vrrp_instance }} {
+    state {{ keepalived_config_state }}
+    interface {{ keepalived_config_interface }}
+    virtual_router_id {{ keepalived_config_virtual_router_id }}
+    priority {{ keepalived_config_priority }}
+    virtual_ipaddress {
+        {{ keepalived_config_virtual_ip }}
+    }
+}

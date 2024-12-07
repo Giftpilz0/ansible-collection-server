@@ -1,0 +1,75 @@
+---
+argument_specs:
+  # main.yml entry point
+  main:
+    short_description: The main entry point for the keepalived role.
+    options:
+      keepalived_service_name:
+        type: str
+        required: false
+        description: keepalived_service_name
+
+      keepalived_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: keepalived_service_state
+
+      keepalived_service_enabled:
+        type: bool
+        required: false
+        description: keepalived_service_enabled
+
+      keepalived_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: keepalived_package_state
+
+      keepalived_package:
+        type: list
+        elements: str
+        required: false
+        description: keepalived_package
+
+      keepalived_config_path:
+        type: str
+        required: false
+        description: keepalived_config_path
+
+      keepalived_config_virtual_ip:
+        type: str
+        required: false
+        description: keepalived_config_virtual_ip
+
+      keepalived_config_interface:
+        type: str
+        required: false
+        description: keepalived_config_interface
+
+      keepalived_config_priority:
+        type: int
+        required: false
+        description: keepalived_config_priority
+
+      keepalived_config_virtual_router_id:
+        type: int
+        required: false
+        description: keepalived_config_virtual_router_id
+
+      keepalived_config_vrrp_instance:
+        type: str
+        required: false
+        description: keepalived_config_vrrp_instance
+
+      keepalived_config_state:
+        type: str
+        required: false
+        description: keepalived_config_state

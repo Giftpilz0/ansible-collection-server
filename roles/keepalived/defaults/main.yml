@@ -1,0 +1,17 @@
+---
+# defaults file for keepalived
+
+keepalived_service_name: keepalived.service
+keepalived_service_state: started
+keepalived_service_enabled: true
+keepalived_package_state: present
+keepalived_package:
+  - keepalived
+
+keepalived_config_path: /etc/keepalived/keepalived.conf
+keepalived_config_virtual_ip:
+keepalived_config_interface: eth0
+keepalived_config_priority: 255
+keepalived_config_virtual_router_id: 100
+keepalived_config_vrrp_instance: VG
+keepalived_config_state: MASTER

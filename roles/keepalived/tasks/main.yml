@@ -1,0 +1,41 @@
+---
+# tasks file for keepalived
+
+######################################
+### packages
+
+- name: "Keepalived: Gather package facts"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "Keepalived: Manage dependencies"
+  become: true
+  ansible.builtin.package:
+    name: "{{ keepalived_package }}"
+    state: "{{ keepalived_package_state }}"
+
+######################################
+### config
+
+- name: "Keepalived: Manage keepalived config"
+  become: true
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: "{{ keepalived_config_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when:
+    - keepalived_package_state != 'skip'
+
+######################################
+### services
+
+- name: "Keepalived: Manage services"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ keepalived_service_name }}"
+    state: "{{ keepalived_service_state }}"
+    enabled: "{{ keepalived_service_enabled }}"
+  when:
+    - keepalived_package_state != 'absent'
