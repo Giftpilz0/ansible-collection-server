@@ -1,0 +1,62 @@
+# HAProxy Configuration
+
+global
+    maxconn {{ haproxy_config_maxconn | default(1000) }}
+{% if haproxy_config_ssl | default(false) %}
+    ssl-default-bind-curves X25519:prime256v1:secp384r1
+    ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    ssl-default-bind-options prefer-client-ciphers ssl-min-ver TLSv1.3 no-tls-tickets
+    ssl-default-server-curves X25519:prime256v1:secp384r1
+    ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    ssl-default-server-options ssl-min-ver TLSv1.3 no-tls-tickets
+{% endif %}
+
+defaults
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+
+# Frontends and Backends for HTTP Applications
+
+frontend frontend
+    mode http
+    bind *:80
+{% if haproxy_config_ssl %}
+    bind *:443 ssl {% for http_app in haproxy_config_http_apps %}crt {{ http_app.certificate }} {% endfor %} alpn h2,http/1.1
+{% if haproxy_config_force_https %}
+    redirect scheme https code 301 if !{ ssl_fc }
+    http-response set-header Strict-Transport-Security max-age=63072000
+{% endif %}
+{% endif %}
+{% for http_app in haproxy_config_http_apps %}
+    acl ACL_{{ http_app.name }} hdr(host) -i {{ http_app.domain }}
+{% endfor %}
+{% for http_app in haproxy_config_http_apps %}
+    use_backend {{ http_app.name }}_backend if ACL_{{ http_app.name }}
+{% endfor %}
+
+{% for http_app in haproxy_config_http_apps %}
+backend {{ http_app.name }}_backend
+    mode http
+    balance roundrobin
+{% for server in http_app.servers %}
+    server {{ server.name }} {{ server.host }}:{{ server.port }} check
+{% endfor %}
+
+{% endfor %}
+# Frontends and Backends for TCP Applications
+
+{% for tcp_app in haproxy_config_tcp_apps %}
+frontend {{ tcp_app.name }}_frontend
+    mode tcp
+    bind *:{{ tcp_app.port }}
+    use_backend {{ tcp_app.name }}_backend
+
+backend {{ tcp_app.name }}_backend
+    mode tcp
+    balance roundrobin
+{% for server in tcp_app.servers %}
+    server {{ server.name }} {{ server.host }}{% if server.port | default(false) %}:{{ server.port }} check{% endif %}
+{% endfor %}
+
+{% endfor %}

@@ -1,0 +1,65 @@
+---
+argument_specs:
+  # main.yml entry point
+  main:
+    short_description: The main entry point for the haproxy role.
+    options:
+      haproxy_service_name:
+        type: str
+        required: false
+        description: haproxy_service_name
+
+      haproxy_service_state:
+        type: str
+        required: false
+        choices:
+          - reloaded
+          - restarted
+          - started
+          - stopped
+        description: haproxy_service_state
+
+      haproxy_service_enabled:
+        type: bool
+        required: false
+        description: haproxy_service_enabled
+
+      haproxy_selinux_permissive:
+        type: bool
+        required: false
+        description: haproxy_selinux_permissive
+
+      haproxy_package_state:
+        type: str
+        required: false
+        choices:
+          - present
+          - absent
+          - latest
+        description: haproxy_package_state
+
+      haproxy_package:
+        type: list
+        elements: str
+        required: false
+        description: haproxy_package
+
+      haproxy_config_path:
+        type: str
+        required: false
+        description: haproxy_config_path
+
+      haproxy_config_ssl:
+        type: str
+        required: false
+        description: haproxy_config_ssl
+
+      haproxy_config_force_https:
+        type: str
+        required: false
+        description: haproxy_config_force_https
+
+      haproxy_config_maxconn:
+        type: str
+        required: false
+        description: haproxy_config_maxconn

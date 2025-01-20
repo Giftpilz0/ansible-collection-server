@@ -1,0 +1,49 @@
+---
+# tasks file for haproxy
+
+######################################
+### packages
+
+- name: "HAproxy: Gather package facts"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "HAproxy: Manage dependencies"
+  become: true
+  ansible.builtin.package:
+    name: "{{ haproxy_package }}"
+    state: "{{ haproxy_package_state }}"
+
+######################################
+### config
+
+- name: "HAproxy: Manage haproxy config"
+  become: true
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: "{{ haproxy_config_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when:
+    - haproxy_package_state != 'skip'
+
+- name: "HAproxy: Set haproxy_t to permissive mode"
+  become: true
+  ansible.builtin.command: semanage permissive -a haproxy_t
+  register: haproxy_selinux
+  changed_when: haproxy_selinux.rc != 0
+  when:
+    - haproxy_selinux_permissive
+
+######################################
+### services
+
+- name: "HAproxy: Manage services"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ haproxy_service_name }}"
+    state: "{{ haproxy_service_state }}"
+    enabled: "{{ haproxy_service_enabled }}"
+  when:
+    - haproxy_package_state != 'absent'

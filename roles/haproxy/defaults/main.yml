@@ -1,0 +1,39 @@
+---
+# defaults file for haproxy
+
+haproxy_service_name: haproxy.service
+haproxy_service_state: started
+haproxy_service_enabled: true
+haproxy_package_state: present
+haproxy_package:
+  - haproxy
+
+haproxy_config_path: /etc/haproxy/haproxy.cfg
+haproxy_config_ssl: true
+haproxy_config_force_https: true
+haproxy_config_maxconn: 2000
+haproxy_selinux_permissive: true
+
+haproxy_config_http_apps:
+  - name: example-app1
+    domain: example.com
+    force_https: true
+    certificate: /etc/ssl/example-app1.pem
+    servers:
+      - name: example_server1
+        host: 192.168.1.101
+        port: 8080
+      - name: example_server2
+        host: 192.168.1.102
+        port: 8080
+
+haproxy_config_tcp_apps:
+  - name: example-tcp-app1
+    port: 3306
+    servers:
+      - name: example_server1
+        host: 192.168.1.101
+        port: 3306
+      - name: example_server2
+        host: 192.168.1.102
+        port: 3306

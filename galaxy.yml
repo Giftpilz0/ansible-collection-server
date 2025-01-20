@@ -14,6 +14,7 @@ authors:
 tags:
   - linux
   - cockpit
+  - haproxy
   - httpd
   - mariadb
   - nfs
